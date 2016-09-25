@@ -1,11 +1,10 @@
 #pragma once
 class Engine {
-
+public:
 	TCODList<Actor* > actors;
 	Actor *player;
 	Map *map;
 
-public:
 	Engine();
 	~Engine();
 	void update();

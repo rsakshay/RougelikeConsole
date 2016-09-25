@@ -19,7 +19,7 @@ public:
 	void moveActorLEFT();							// Move player left
 	void moveActorRIGHT();							// Move player right
 	std::pair<int, int> getActorPos() const;		// Return player postion
-	void setActorPos(std::pair<int, int>& actorPos);
+	void setActorPos(int x, int y);
 
 	void render() const;
 

@@ -43,10 +43,10 @@ std::pair<int, int> Actor::getActorPos() const
 	return std::pair<int, int>(actorX, actorY);
 }
 
-void Actor::setActorPos(std::pair<int, int>& actorPos)
+void Actor::setActorPos(int x, int y)
 {
-	actorX = actorPos.first;
-	actorY = actorPos.second;
+	actorX = x;
+	actorY = y;
 }
 
 void Actor::render() const
