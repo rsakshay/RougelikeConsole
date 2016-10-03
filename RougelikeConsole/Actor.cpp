@@ -5,10 +5,10 @@ Actor::Actor() : Actor::Actor(40, 25, '@', TCODColor::white)
 }
 
 Actor::Actor(int x, int y, int ch, const TCODColor& col) :
-	actorX(x), actorY(y), asciiCh(ch), color(col)
+	abscissa(x), ordinate(y), asciiCh(ch), color(col)
 {
-	/*actorX = x;
-	actorY = y;
+	/*abscissa = x;
+	ordinate = y;
 	asciiCh = ch;
 	color = col;*/
 }
@@ -18,39 +18,50 @@ Actor::~Actor()
 {
 }
 
-void Actor::moveActorUP()
+void Actor::moveUP()
 {
-	actorY--;
+	ordinate--;
 }
 
-void Actor::moveActorDOWN()
+void Actor::moveDOWN()
 {
-	actorY++;
+	ordinate++;
 }
 
-void Actor::moveActorLEFT()
+void Actor::moveLEFT()
 {
-	actorX--;
+	abscissa--;
 }
 
-void Actor::moveActorRIGHT()
+void Actor::moveRIGHT()
 {
-	actorX++;
+	abscissa++;
 }
 
-std::pair<int, int> Actor::getActorPos() const
+std::pair<int, int> Actor::getPos() const
 {
-	return std::pair<int, int>(actorX, actorY);
+	return std::pair<int, int>(abscissa, ordinate);
 }
 
 void Actor::setActorPos(int x, int y)
 {
-	actorX = x;
-	actorY = y;
+	abscissa = x;
+	ordinate = y;
 }
+
+int Actor::getAsciiCh() const
+{
+	return asciiCh;
+}
+
+TCODColor Actor::getColor() const
+{
+	return color;
+}
+
 
 void Actor::render() const
 {
-	TCODConsole::root->setChar(actorX, actorY, asciiCh);
-	TCODConsole::root->setCharForeground(actorX, actorY, color);
+	TCODConsole::root->setChar(abscissa, ordinate, asciiCh);
+	TCODConsole::root->setCharForeground(abscissa, ordinate, color);
 }

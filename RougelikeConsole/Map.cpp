@@ -1,6 +1,7 @@
 #include "libtcod.hpp"
 #include "Map.h"
 #include "Actor.h"
+#include "Enemy.h"
 #include "Engine.h"
 
 static const int ROOM_MAX_SIZE = 12;
@@ -95,8 +96,8 @@ void Map::createRoom(bool first, int x1, int y1, int x2, int y2) {
 	else {
 		TCODRandom *rng = TCODRandom::getInstance();
 		if (rng->getInt(0, 3) == 0) {
-			engine.actors.push(new Actor((x1 + x2) / 2, (y1 + y2) / 2, '@',
-				TCODColor::yellow));
+			engine.enemies.push(new Enemy((x1 + x2) / 2, (y1 + y2) / 2, '@',
+				TCODColor::yellow, 'o'));
 		}
 	}
 }

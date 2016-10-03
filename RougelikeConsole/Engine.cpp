@@ -2,20 +2,25 @@
 #include "Actor.h"
 #include "Map.h"
 #include "Engine.h"
+//#include "ComponentList.h"
+
 
 
 Engine::Engine()
 {
-	TCODConsole::initRoot(80, 50, "libtcod C++ tutorial", false);
-	player = new Actor(40, 25, '@', TCODColor::white);
-	actors.push(player);
+	//actorList = ComponentList<Actor>();
+	TCODConsole::initRoot(80, 50, "RougelikeConsole", false);
+	player = new Player(40, 25, '@', TCODColor::white);
+	//actorList.push(*player);
 	map = new Map(80, 45);
 }
 
 
 Engine::~Engine()
 {
-	actors.clearAndDelete();
+	delete player;
+	enemies.clearAndDelete();
+	//actorList.deleteList();
 	delete map;
 }
 
@@ -23,42 +28,51 @@ void Engine::update() {
 	TCOD_key_t key;
 	TCODSystem::checkForEvent(TCOD_EVENT_KEY_PRESS, &key, NULL);
 
-	std::pair<int, int> actorPos = player->getActorPos();
+	std::pair<int, int> actorPos = player->getPos();
 
 	switch (key.vk) {
 	case TCODK_UP:
 		if (!map->isWall(actorPos.first, actorPos.second - 1)) {
-			player->moveActorUP();
+			player->moveUP();
+			Enemy::update(enemies, player->getPos(), map);
 		}
 		break;
 	case TCODK_DOWN:
 		if (!map->isWall(actorPos.first, actorPos.second + 1)) {
-			player->moveActorDOWN();
+			player->moveDOWN();
+			Enemy::update(enemies, player->getPos(), map);
 		}
 		break;
 	case TCODK_LEFT:
 		if (!map->isWall(actorPos.first - 1, actorPos.second)) {
-			player->moveActorLEFT();
+			player->moveLEFT();
+			Enemy::update(enemies, player->getPos(), map);
 		}
 		break;
 	case TCODK_RIGHT:
 		if (!map->isWall(actorPos.first + 1, actorPos.second)) {
-			player->moveActorRIGHT();
+			player->moveRIGHT();
+			Enemy::update(enemies, player->getPos(), map);
 		}
 		break;
 	default:break;
 	}
+	
 }
 
 void Engine::render() {
 	TCODConsole::root->clear();
 	// draw the map
 	map->render();
-
-	// draw the actors
-	for (Actor **iterator = actors.begin();
-		iterator != actors.end(); iterator++) {
+	player->render();
+	// draw the enemies
+	for (Enemy **iterator = enemies.begin();
+		iterator != enemies.end(); iterator++) {
 		(*iterator)->render();
 	}
+	/*for (Actor *iterator = &actorList.begin();
+		iterator != &actorList.end(); iterator++) {
+		iterator->render();
+	}*/
 }
 

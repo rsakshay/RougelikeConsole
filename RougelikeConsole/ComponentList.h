@@ -18,5 +18,8 @@ public:
 
 	void push(T& t);
 	T pop();
+	T begin() const;
+	T end() const;
+	void deleteList();
 
 };

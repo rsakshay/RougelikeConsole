@@ -7,8 +7,9 @@ Engine engine;
 
 int main() {
 	while (!TCODConsole::isWindowClosed()) {
-		engine.update();
+		//engine.update();
 		engine.render();
+		engine.update();
 		TCODConsole::flush();
 	}
 	return 0;
@@ -26,19 +27,19 @@ int main() {
 //		switch (key.vk) {
 //
 //		case TCODK_UP: 
-//			player.moveActorUP();
+//			player.moveUP();
 //			break;
 //
 //		case TCODK_DOWN: 
-//			player.moveActorDOWN();
+//			player.moveDOWN();
 //			break;
 //
 //		case TCODK_LEFT: 
-//			player.moveActorLEFT();
+//			player.moveLEFT();
 //			break;
 //
 //		case TCODK_RIGHT:
-//			player.moveActorRIGHT();
+//			player.moveRIGHT();
 //			break;
 //
 //		default:
@@ -46,7 +47,7 @@ int main() {
 //		}
 //
 //		TCODConsole::root->clear();
-//		std::pair<int, int> playerPos = player.getActorPos();
+//		std::pair<int, int> playerPos = player.getPos();
 //		TCODConsole::root->putChar(playerPos.first, playerPos.second, '@');
 //		TCODConsole::flush();
 //	}
