@@ -6,11 +6,11 @@
 
 
 
-Engine::Engine()
+Engine::Engine() : fovRadius(4), computeFov(true)
 {
 	//actorList = ComponentList<Actor>();
 	TCODConsole::initRoot(80, 50, "RougelikeConsole", false);
-	player = new Player(40, 25, '@', TCODColor::white);
+	player = new Player(40, 25, '@', TCODColor::purple);
 	//actorList.push(*player);
 	map = new Map(80, 45);
 }
@@ -32,43 +32,55 @@ void Engine::update() {
 
 	switch (key.vk) {
 	case TCODK_UP:
-		if (!map->isWall(actorPos.first, actorPos.second - 1)) {
+		if (map->canWalk(actorPos.first, actorPos.second - 1)) {
 			player->moveUP();
+			computeFov = true;
 			Enemy::update(enemies, player->getPos(), map);
 		}
 		break;
 	case TCODK_DOWN:
-		if (!map->isWall(actorPos.first, actorPos.second + 1)) {
+		if (map->canWalk(actorPos.first, actorPos.second + 1)) {
 			player->moveDOWN();
+			computeFov = true;
 			Enemy::update(enemies, player->getPos(), map);
 		}
 		break;
 	case TCODK_LEFT:
-		if (!map->isWall(actorPos.first - 1, actorPos.second)) {
+		if (map->canWalk(actorPos.first - 1, actorPos.second)) {
 			player->moveLEFT();
+			computeFov = true;
 			Enemy::update(enemies, player->getPos(), map);
 		}
 		break;
 	case TCODK_RIGHT:
-		if (!map->isWall(actorPos.first + 1, actorPos.second)) {
+		if (map->canWalk(actorPos.first + 1, actorPos.second)) {
 			player->moveRIGHT();
+			computeFov = true;
 			Enemy::update(enemies, player->getPos(), map);
 		}
 		break;
 	default:break;
 	}
-	
+	if (computeFov) {
+		map->computeFov();
+		computeFov = false;
+	}
 }
 
 void Engine::render() {
 	TCODConsole::root->clear();
 	// draw the map
 	map->render();
-	player->render();
+	if (map->isInFov(player->getPos().first, player->getPos().second)) {
+		player->render();
+	}
 	// draw the enemies
 	for (Enemy **iterator = enemies.begin();
 		iterator != enemies.end(); iterator++) {
-		(*iterator)->render();
+		Enemy* enemy = *iterator;
+		if (map->isInFov(enemy->getPos().first, enemy->getPos().second)) {
+			enemy->render();
+		}
 	}
 	/*for (Actor *iterator = &actorList.begin();
 		iterator != &actorList.end(); iterator++) {

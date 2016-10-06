@@ -31,13 +31,13 @@ void Enemy::tryMove(const std::pair<int, int>& playerPos, Map* map)
 		if (abs(xDist) > abs(yDist))
 		{
 			if (xDist > 0) {
-				if (!map->isWall(abscissa + 1, ordinate))
+				if (map->canWalk(abscissa + 1, ordinate))
 				{
 					this->moveRIGHT();
 				}
 			}
 			else if (xDist < 0) {
-				if (!map->isWall(abscissa - 1, ordinate))
+				if (map->canWalk(abscissa - 1, ordinate))
 				{
 					this->moveLEFT();
 				}
@@ -46,13 +46,13 @@ void Enemy::tryMove(const std::pair<int, int>& playerPos, Map* map)
 		else if (abs(xDist) < abs(yDist))
 		{
 			if (yDist < 0) {
-				if (!map->isWall(abscissa, ordinate - 1))
+				if (map->canWalk(abscissa, ordinate - 1))
 				{
 					this->moveUP();
 				}
 			}
 			else if (yDist > 0) {
-				if (!map->isWall(abscissa, ordinate + 1))
+				if (map->canWalk(abscissa, ordinate + 1))
 				{
 					this->moveDOWN();
 				}
