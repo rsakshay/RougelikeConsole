@@ -8,9 +8,9 @@
 
 Engine::Engine() : fovRadius(4), computeFov(true)
 {
-	//actorList = ComponentList<Actor>();
 	TCODConsole::initRoot(80, 50, "RougelikeConsole", false);
 	player = new Player(40, 25, '@', TCODColor::purple);
+	//myList.push(*player);
 	//actorList.push(*player);
 	map = new Map(80, 45);
 }
@@ -59,6 +59,16 @@ void Engine::update() {
 			Enemy::update(enemies, player->getPos(), map);
 		}
 		break;
+	case TCODK_SPACE:
+		for (Enemy **iterator = enemies.begin();
+			iterator != enemies.end(); iterator++) {
+			int eX = (*iterator)->getPos().first;
+			int eY = (*iterator)->getPos().second;
+			if (eX <= actorPos.first + 1 && eX >= actorPos.first - 1 && eY <= actorPos.second + 1 && eY >= actorPos.second - 1) {
+				(*iterator)->damage(player->playerDamage);
+			}
+		}
+		break;
 	default:break;
 	}
 	if (computeFov) {
@@ -78,9 +88,9 @@ void Engine::render() {
 	for (Enemy **iterator = enemies.begin();
 		iterator != enemies.end(); iterator++) {
 		Enemy* enemy = *iterator;
-		if (map->isInFov(enemy->getPos().first, enemy->getPos().second)) {
+		//if (map->isInFov(enemy->getPos().first, enemy->getPos().second)) {
 			enemy->render();
-		}
+		//}
 	}
 	/*for (Actor *iterator = &actorList.begin();
 		iterator != &actorList.end(); iterator++) {

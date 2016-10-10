@@ -23,7 +23,7 @@ public:
 			h = rng->getInt(ROOM_MIN_SIZE, node->h - 2);
 			x = rng->getInt(node->x + 1, node->x + node->w - w - 1);
 			y = rng->getInt(node->y + 1, node->y + node->h - h - 1);
-			map.createRoom(roomNum == 0, x, y, x + w - 1, y + h - 1);
+			map.createRoom(x, y, x + w - 1, y + h - 1, roomNum == 0);
 			if (roomNum != 0) {
 				// dig a corridor from last room
 				map.dig(lastx, lasty, x + w / 2, lasty);
@@ -44,14 +44,45 @@ Map::Map() {
 Map::Map(int width, int height) : width(width), height(height) {
 	tiles = new Tile[width*height];
 	map = new TCODMap(width, height);
-	//TCODBsp bsp(0, 0, width, height);
-	//bsp.splitRecursive(NULL, 8, ROOM_MAX_SIZE, ROOM_MAX_SIZE, 1.5f, 1.5f);
-	//BspListener listener(*this);
-	//bsp.traverseInvertedLevelOrder(&listener, NULL);
-	createRoom(3, 3, 10, 10);
+	/*TCODBsp bsp(0, 0, width, height);
+	bsp.splitRecursive(NULL, 8, ROOM_MAX_SIZE, ROOM_MAX_SIZE, 1.5f, 1.5f);
+	BspListener listener(*this);
+	bsp.traverseInvertedLevelOrder(&listener, NULL);*/
+	/*createRoom(3, 3, 10, 10);
 	createRoom(3, 15, 10, 35);
 	dig(7, 10, 7, 15);
+	createRoom(15, 3, 22, 15);*/
+	createRoom(3, 3, 10, 10);
+	createRoom(3, 15, 10, 30);
+	dig(7, 10, 7, 15);
 	createRoom(15, 3, 22, 15);
+	dig(10, 7, 15, 7);
+	createRoom(17, 20, 21, 23);
+	dig(19, 15, 19, 20);
+	createRoom(27, 3, 32, 8);
+	dig(22, 5, 27, 5);
+	createRoom(27, 12, 47, 19);
+	dig(22, 13, 26, 13);
+	dig(29, 8, 29, 11);
+	dig(30, 19, 30, 30);
+	dig(44, 19, 44, 23);
+	//createRoom(29,24,49,31);
+	createRoom(43, 24, 46, 27);
+	createRoom(29, 31, 49, 38);
+	createRoom(15, 31, 22, 38);
+	dig(23, 34, 29, 34);
+	dig(49, 34, 59, 34);
+	createRoom(60, 31, 67, 38);
+	dig(64, 26, 64, 30);
+	createRoom(50, 19, 70, 26, true);
+	createRoom(63, 3, 70, 10);
+	dig(66, 10, 66, 18);
+	dig(57, 15, 57, 18);
+	createRoom(55, 10, 59, 14);
+	createRoom(40, 3, 44, 7);
+	dig(45, 5, 62, 5);
+	dig(7, 30, 7, 33);
+	createRoom(5, 34, 9, 38);
 }
 
 
