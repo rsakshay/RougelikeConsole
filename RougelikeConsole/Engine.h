@@ -7,9 +7,7 @@
 class Engine {
 	bool computeFov;
 public:
-	TCODList<Enemy* > enemies;
-	//ComponentList<Actor> actorList;
-	//Actor *player;
+	//TCODList<Enemy* > myList;
 	MyList<Enemy> myList;
 	Player *player;
 	Map *map;

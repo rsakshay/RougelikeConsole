@@ -3,6 +3,7 @@
 #include "Actor.h"
 #include "Enemy.h"
 #include "Engine.h"
+#include "MyList.h"
 
 static const int ROOM_MAX_SIZE = 12;
 static const int ROOM_MIN_SIZE = 6;
@@ -95,10 +96,17 @@ bool Map::canWalk(int x, int y) const
 {
 	if (isWall(x, y))
 		return false;
-	for (Enemy **iterator = engine.enemies.begin();
-		iterator != engine.enemies.end(); iterator++) {
-		Enemy* enemy = *iterator;
-		if (enemy->getPos().first == x && enemy->getPos().second == y) {
+	//for (Enemy *iterator = &(engine.myList.begin());
+	//	iterator != &(engine.myList.end()); iterator++) {
+	//	Enemy* enemy = iterator;
+	//	if (enemy->getPos().first == x && enemy->getPos().second == y) {
+	//		return false;
+	//	}
+	//}
+	for (int i = 0; i <= engine.myList.top; i++)
+	{
+		if (engine.myList.objects[i].getPos().first == x && engine.myList.objects[i].getPos().second == y)
+		{
 			return false;
 		}
 	}
@@ -172,8 +180,8 @@ void Map::createRoom(int x1, int y1, int x2, int y2, bool first) {
 	else {
 		TCODRandom *rng = TCODRandom::getInstance();
 		if (rng->getInt(0, 3) == 0) {
-			engine.enemies.push(new Enemy((x1 + x2) / 2, (y1 + y2) / 2, '@',
-				TCODColor::yellow, 'o'));
+			engine.myList.push(*(new Enemy((x1 + x2) / 2, (y1 + y2) / 2, '@',
+				TCODColor::yellow, 'o')));
 		}
 	}
 }

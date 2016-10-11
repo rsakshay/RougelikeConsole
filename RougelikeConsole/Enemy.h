@@ -1,6 +1,7 @@
 #pragma once
 #include "Actor.h"
 #include "Map.h"
+#include "MyList.h"
 
 class Enemy :
 	public Actor
@@ -14,6 +15,6 @@ public:
 
 	void damage(int& x);
 	void tryMove(const std::pair<int, int>& playerPos, Map* map);
-	static void update(const TCODList<Enemy* >& enemies, const std::pair<int, int>& playerPos, Map* map);
+	static void update(MyList<Enemy>& myList, const std::pair<int, int>& playerPos, Map* map);
 };
 

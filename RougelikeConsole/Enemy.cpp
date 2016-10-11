@@ -1,7 +1,7 @@
 #include "Enemy.h"
 #include <cmath>
 
-extern TCODList<Enemy* > enemies;
+extern TCODList<Enemy* > myList;
 Enemy::Enemy()
 {
 	this->hp = 1;
@@ -69,13 +69,21 @@ void Enemy::tryMove(const std::pair<int, int>& playerPos, Map* map)
 	}
 }
 
-void Enemy::update(const TCODList<Enemy*>& enemies, const std::pair<int, int>& playerPos, Map* map)
+void Enemy::update(MyList<Enemy>& myList, const std::pair<int, int>& playerPos, Map* map)
 {
-	for (Enemy **iterator = enemies.begin();
-		iterator != enemies.end(); iterator++) {
-		/*if ((*iterator)->hp <= 0)
-			enemies.remove(iterator);*/
-		(*iterator)->tryMove(playerPos, map);
+	//for (Enemy *iterator = &(myList.begin());
+	//	iterator != &(myList.end()); iterator++) {
+	//	/*if ((*iterator)->hp <= 0)
+	//		myList.remove(iterator);*/
+	//	iterator->tryMove(playerPos, map);
+	//}
+	for (int i = 0; i <= myList.top; i++)
+	{
+		if (myList.objects[i].hp <= 0)
+		{
+			myList.remove(&(myList.objects[i--]));
+		}
+		myList.objects[i].tryMove(playerPos, map);
 	}
 }
 

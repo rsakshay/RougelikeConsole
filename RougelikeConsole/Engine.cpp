@@ -13,13 +13,15 @@ Engine::Engine() : fovRadius(4), computeFov(true)
 	//myList.push(*player);
 	//actorList.push(*player);
 	map = new Map(80, 45);
+	myList.push(*(new Enemy(60, 20, '@',
+		TCODColor::yellow, 'o')));
 }
 
 
 Engine::~Engine()
 {
 	delete player;
-	enemies.clearAndDelete();
+	//myList.clearAndDelete();
 	//actorList.deleteList();
 	delete map;
 }
@@ -35,39 +37,49 @@ void Engine::update() {
 		if (map->canWalk(actorPos.first, actorPos.second - 1)) {
 			player->moveUP();
 			computeFov = true;
-			Enemy::update(enemies, player->getPos(), map);
+			Enemy::update(myList, player->getPos(), map);
 		}
 		break;
 	case TCODK_DOWN:
 		if (map->canWalk(actorPos.first, actorPos.second + 1)) {
 			player->moveDOWN();
 			computeFov = true;
-			Enemy::update(enemies, player->getPos(), map);
+			Enemy::update(myList, player->getPos(), map);
 		}
 		break;
 	case TCODK_LEFT:
 		if (map->canWalk(actorPos.first - 1, actorPos.second)) {
 			player->moveLEFT();
 			computeFov = true;
-			Enemy::update(enemies, player->getPos(), map);
+			Enemy::update(myList, player->getPos(), map);
 		}
 		break;
 	case TCODK_RIGHT:
 		if (map->canWalk(actorPos.first + 1, actorPos.second)) {
 			player->moveRIGHT();
 			computeFov = true;
-			Enemy::update(enemies, player->getPos(), map);
+			Enemy::update(myList, player->getPos(), map);
 		}
 		break;
 	case TCODK_SPACE:
-		for (Enemy **iterator = enemies.begin();
-			iterator != enemies.end(); iterator++) {
-			int eX = (*iterator)->getPos().first;
-			int eY = (*iterator)->getPos().second;
+		//for (Enemy *iterator = &(myList.begin());
+		//	iterator != &(myList.end()); iterator++) {
+		//	int eX = iterator->getPos().first;
+		//	int eY = iterator->getPos().second;
+		//	if (eX <= actorPos.first + 1 && eX >= actorPos.first - 1 && eY <= actorPos.second + 1 && eY >= actorPos.second - 1) {
+		//		iterator->damage(player->playerDamage);
+		//	}
+		//}
+		for (int i = 0; i <= myList.top; i++)
+		{
+			int eX = myList.objects[i].getPos().first;
+			int eY = myList.objects[i].getPos().second;
 			if (eX <= actorPos.first + 1 && eX >= actorPos.first - 1 && eY <= actorPos.second + 1 && eY >= actorPos.second - 1) {
-				(*iterator)->damage(player->playerDamage);
+				myList.objects[i].damage(player->playerDamage);
+				break;
 			}
 		}
+		Enemy::update(myList, player->getPos(), map);
 		break;
 	default:break;
 	}
@@ -84,13 +96,20 @@ void Engine::render() {
 	if (map->isInFov(player->getPos().first, player->getPos().second)) {
 		player->render();
 	}
-	// draw the enemies
-	for (Enemy **iterator = enemies.begin();
-		iterator != enemies.end(); iterator++) {
-		Enemy* enemy = *iterator;
-		//if (map->isInFov(enemy->getPos().first, enemy->getPos().second)) {
-			enemy->render();
-		//}
+	// draw the myList
+	//int x = int(&(myList.begin()));
+	//int y = int(&(myList.end()));
+	//for (Enemy *iterator = &(myList.begin());
+	//	iterator != &(myList.end()); iterator++) {
+	//	if (map->isInFov(iterator->getPos().first, iterator->getPos().second)) {
+	//		iterator->render();
+	//	}
+	//}
+	for (int i = 0; i <= myList.top; i++)
+	{
+		if (map->isInFov(myList.objects[i].getPos().first, myList.objects[i].getPos().second)) {
+			myList.objects[i].render();
+		}
 	}
 	/*for (Actor *iterator = &actorList.begin();
 		iterator != &actorList.end(); iterator++) {

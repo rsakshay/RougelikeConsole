@@ -6,7 +6,7 @@ class MyList
 {
 
 private:
-	struct tNode
+	/*struct tNode
 	{
 		T t;
 		tNode* nextNode;
@@ -14,9 +14,15 @@ private:
 	};
 
 	tNode* root;
-	tNode* top;
+	tNode* top;*/
+
+	
 
 public:
+	T* objects;
+	int size;
+	int top;
+
 	MyList();
 	~MyList();
 
@@ -24,104 +30,127 @@ public:
 	T pop();
 	T begin() const;
 	T end() const;
-	void deleteList();
+	//void deleteList();
 	void remove(T* t);
 };
 
 template<typename T>
 inline MyList<T>::MyList()
 {
-	root = nullptr;
-	top = root;
+	/*root = nullptr;
+	top = root;*/
+	size = 10;
+	objects = new T[size];
+	top = 0;
 }
 
 template<typename T>
 inline MyList<T>::~MyList()
 {
-	this->deleteList();
+	delete[] objects;
 }
 
 template<typename T>
 inline void MyList<T>::push(T & t)
 {
-	if (root == nullptr)
-	{
-		root = new tNode();
-		root->t = t;
-		root->nextNode = nullptr;
-		root->prevNode = nullptr;
-		top = root;
-	}
-	else
-	{
-		tNode* temp = new tNode();
-		temp->t = t;
-		temp->nextNode = nullptr;
-		temp->prevNode = top;
-		top = temp;
-	}
+	if (top == size - 1)
+		abort();
+	objects[top++] = t;
+
+	//if (root == nullptr)
+	//{
+	//	root = new tNode();
+	//	root->t = t;
+	//	root->nextNode = nullptr;
+	//	root->prevNode = nullptr;
+	//	top = root;
+	//}
+	//else
+	//{
+	//	tNode* temp = new tNode();
+	//	temp->t = t;
+	//	temp->nextNode = nullptr;
+	//	temp->prevNode = top;
+	//	top = temp;
+	//}
 }
 
 template<typename T>
 inline T MyList<T>::pop()
 {
-	if (top == root)
-	{
-		T temp = root->t;
-		delete(root);
-		return temp;
-	}
-	T temp = top->t;
-	tNode* last = top;
-	top = top->prevNode;
-	delete(last);
-	return temp;
+	if (top <= 0)
+		abort();
+	return objects[--top];
+	//if (top == root)
+	//{
+	//	T temp = root->t;
+	//	delete(root);
+	//	return temp;
+	//}
+	//T temp = top->t;
+	//tNode* last = top;
+	//top = top->prevNode;
+	//delete(last);
+	//return temp;
 }
 
 template<typename T>
 inline T MyList<T>::begin() const
 {
-	return root->t;
+	
+	return objects[0];
 }
 
 template<typename T>
 inline T MyList<T>::end() const
 {
-	return top->t;
+	return objects[top];
 }
 
-template<typename T>
-inline void MyList<T>::deleteList()
-{
-	tNode* temp;
-	if (top == nullptr)
-		return;
-	while (top->prevNode != nullptr)
-	{
-		temp = top;
-		top = top->prevNode;
-		delete(temp);
-	}
-	delete(top);
-}
+//template<typename T>
+//inline void MyList<T>::deleteList()
+//{
+//	tNode* temp;
+//	if (top == nullptr)
+//		return;
+//	while (top->prevNode != nullptr)
+//	{
+//		temp = top;
+//		top = top->prevNode;
+//		delete(temp);
+//	}
+//	delete(top);
+//}
 
 template<typename T>
 inline void MyList<T>::remove(T* t)
 {
-	tNode* iterator;
-	iterator = root;
-	while (&(iterator->t) != t || iterator->nextNode != nullptr)
+	for (int iterator = 0; iterator <= top; iterator++)
 	{
-		iterator = iterator->nextNode;
+		if (&objects[iterator] == t)
+		{
+			int jterator = iterator;
+			while (jterator <= top)
+			{
+				objects[jterator] = objects[++jterator];
+			}
+			--top;
+		}
 	}
-	if (&(iterator->t) == t)
-	{
-		tNode* temp;
-		temp = iterator;
-		iterator = iterator->nextNode;
-		temp->prevNode->nextNode = iterator;
-		iterator->prevNode = temp->prevNode;
-		delete(temp);
-	}
+	//tNode* iterator;
+	//iterator = root;
+	//while (&(iterator->t) != t || iterator->nextNode != nullptr)
+	//{
+	//	iterator = iterator->nextNode;
+	//}
+	//if (&(iterator->t) == t)
+	//{
+	//	tNode* temp;
+	//	temp = iterator;
+	//	iterator = iterator->nextNode;
+	//	temp->prevNode->nextNode = iterator;
+	//	iterator->prevNode = temp->prevNode;
+	//	delete(temp);
+	//}
 }
 
