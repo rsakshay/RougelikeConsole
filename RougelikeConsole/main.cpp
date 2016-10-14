@@ -1,19 +1,29 @@
 #include "libtcod.hpp"
+#include "globals.h"
 #include "Actor.h"
 #include "Map.h"
 #include "Engine.h"
+#include <fstream>
+#include <string>
 
 Engine engine;
 
 int main() {
-	while (!TCODConsole::isWindowClosed()) {
-		engine.update();
-		engine.render();
+	while (!TCODConsole::isWindowClosed() && !Globals::gameIsOver) {
+		if (Globals::isTitleScreenActive)
+		{
+			engine.hud->displayTitleScreen();
+		}
+		else
+		{
+			engine.update();
+			engine.render();
+		}
+		
 		TCODConsole::flush();
 	}
 	return 0;
 }
-
 
 //int main() {
 //	Actor player;

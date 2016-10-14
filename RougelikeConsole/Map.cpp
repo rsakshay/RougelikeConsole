@@ -135,8 +135,10 @@ void Map::computeFov() {
 }
 
 void Map::render() const {
-	static const TCODColor darkWall(0, 0, 100);
-	static const TCODColor darkGround(50, 50, 150);
+	//static const TCODColor darkWall(0, 0, 100);
+	//static const TCODColor darkGround(50, 50, 150);
+	static const TCODColor darkWall(51, 25, 0);
+	static const TCODColor darkGround(102, 51, 0);
 	static const TCODColor lightWall(130, 110, 50);
 	static const TCODColor lightGround(200, 180, 50);
 	for (int x = 0; x < width; x++) {
@@ -151,6 +153,7 @@ void Map::render() const {
 			}
 		}
 	}
+	TCODConsole::root->setCharBackground(7, 36, TCODColor::crimson);
 }
 
 void Map::dig(int x1, int y1, int x2, int y2) {
@@ -180,7 +183,7 @@ void Map::createRoom(int x1, int y1, int x2, int y2, bool first) {
 	else {
 		TCODRandom *rng = TCODRandom::getInstance();
 		if (rng->getInt(0, 3) == 0) {
-			engine.myList.push(*(new Enemy((x1 + x2) / 2, (y1 + y2) / 2, '@',
+			engine.myList.push(*(new Enemy((x1 + x2) / 2, (y1 + y2) / 2, 140,
 				TCODColor::yellow, 'o')));
 		}
 	}

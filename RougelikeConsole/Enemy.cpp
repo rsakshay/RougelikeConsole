@@ -1,33 +1,52 @@
 #include "Enemy.h"
+#include "Engine.h"
+#include "Gui.h"
 #include <cmath>
 
 extern TCODList<Enemy* > myList;
 Enemy::Enemy()
 {
+	this->nameID = '@';
 	this->hp = 1;
+	this->actorDamage = 1;
 }
 
 Enemy::Enemy(char nameID) : Actor()
 {
 	this->nameID = nameID;
 	this->hp = 1;
+	this->actorDamage = 1;
 }
 
 Enemy::Enemy(int x, int y, int ch, const TCODColor & col, char nameID) : Actor(x, y, ch, col)
 {
 	this->nameID = nameID;
 	this->hp = 1;
+	this->actorDamage = 1;
 }
 
+
+
+Enemy & Enemy::operator=(const Enemy & other)
+{
+	if (this != &other)
+	{
+		this->nameID = other.nameID;
+		this->hp = other.hp;
+		this->actorDamage = other.actorDamage;
+		this->abscissa = other.abscissa;
+		this->ordinate = other.ordinate;
+		this->asciiCh = other.asciiCh;
+		this->color = other.color;
+	}
+	// TODO: insert return statement here
+	return *this;
+}
 
 Enemy::~Enemy()
 {
 }
 
-void Enemy::damage(int & x)
-{
-	this->hp -= x;
-}
 
 void Enemy::tryMove(const std::pair<int, int>& playerPos, Map* map)
 {
@@ -81,9 +100,21 @@ void Enemy::update(MyList<Enemy>& myList, const std::pair<int, int>& playerPos, 
 	{
 		if (myList.objects[i].hp <= 0)
 		{
-			myList.remove(&(myList.objects[i--]));
+			myList.remove(myList.objects[i--]);
 		}
 		myList.objects[i].tryMove(playerPos, map);
+		int eX = myList.objects[i].getPos().first;
+		int eY = myList.objects[i].getPos().second;
+		if (eX <= playerPos.first + 1 && eX >= playerPos.first - 1 && eY <= playerPos.second + 1 && eY >= playerPos.second - 1) {
+			engine.player->damage(myList.objects[i].actorDamage);
+			engine.hud->displayEnemyHP(myList.objects[i]);
+		}
 	}
 }
 
+bool operator==(const Enemy & lhs, const Enemy & rhs)
+{
+	if (&lhs == &rhs)
+		return true;
+	return false;
+}

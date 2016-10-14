@@ -10,8 +10,11 @@ protected:
 	int asciiCh;									// ASCII character for actor
 	TCODColor color;								// Color on tcod console
 	char nameID;									// Actor name ID
+	int hp;
 
 public:
+	int actorDamage;
+
 	Actor();
 	Actor(int x, int y, int ch, const TCODColor& col);
 	~Actor();
@@ -25,6 +28,8 @@ public:
 	int getAsciiCh() const;
 	TCODColor getColor() const;
 	void render() const;
-
+	int getHP() const;
+	void damage(int& x);
+	void damage(Actor& actor);
 };
 

@@ -23,32 +23,13 @@ public:
 
 	MyList();
 	~MyList();
-	MyList(const MyList& other);
-	MyList& operator=(const MyList& other)
-	{
-		if (this != &other)
-		{
-			this->size = other.size;
-			this->top = other.top;
-
-			if (this->objects == nullptr)
-			{
-				this->objects = new T[size];
-			}
-
-			for (int i = 0; i < size; i++)
-				this->objects[i] = other.objects[i];
-		}
-		// TODO: insert return statement here
-		return *this;
-	}
 
 	void push(T& t);
 	T pop();
 	T begin() const;
 	T end() const;
 	//void deleteList();
-	void remove(const T& t);
+	void remove(T* t);
 	int& listEnd();
 };
 
@@ -67,22 +48,6 @@ inline MyList<T>::~MyList()
 {
 	delete[] objects;
 }
-
-template<typename T>
-inline MyList<T>::MyList(const MyList & other)
-{
-	this->size = other.size;
-	this->top = other.top;
-
-	if (this->objects == nullptr)
-	{
-		this->objects = new T[size];
-	}
-	
-	for (int i = 0; i < size; i++)
-		this->objects[i] = other.objects[i];
-}
-
 
 template<typename T>
 inline void MyList<T>::push(T & t)
@@ -157,18 +122,18 @@ inline T MyList<T>::end() const
 //}
 
 template<typename T>
-inline void MyList<T>::remove(const T& t)
+inline void MyList<T>::remove(T* t)
 {
 	for (int iterator = 0; iterator <= top; iterator++)
 	{
-		if (objects[iterator] == t)
+		if (&objects[iterator] == t)
 		{
 			int jterator = iterator;
 			while (jterator <= top)
 			{
 				objects[jterator] = objects[++jterator];
 			}
-			top--;
+			--top;
 		}
 
 	}

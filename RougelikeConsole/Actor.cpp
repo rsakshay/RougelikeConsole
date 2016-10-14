@@ -65,3 +65,18 @@ void Actor::render() const
 	TCODConsole::root->setChar(abscissa, ordinate, asciiCh);
 	TCODConsole::root->setCharForeground(abscissa, ordinate, color);
 }
+
+int Actor::getHP() const
+{
+	return hp;
+}
+
+void Actor::damage(int & x)
+{
+	this->hp -= x;
+}
+
+void Actor::damage(Actor & actor)
+{
+	this->hp -= actor.actorDamage;
+}
