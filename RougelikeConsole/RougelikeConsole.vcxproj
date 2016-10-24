@@ -144,6 +144,11 @@
     <ClInclude Include="MyList.h" />
     <ClInclude Include="Player.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="CreateRoom.txt" />
+    <Text Include="Dig.txt" />
+    <Text Include="title.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

@@ -20,5 +20,15 @@ Player::~Player()
 {
 }
 
+void Player::damage(int & x)
+{
+	this->hp -= x;
+}
+
+void Player::damage(Actor & actor)
+{
+	this->hp -= actor.actorDamage;
+}
+
 
 

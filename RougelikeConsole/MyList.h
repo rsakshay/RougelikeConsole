@@ -1,5 +1,11 @@
 #pragma once
 #include <typeinfo>
+//Macro definition for max size of the list
+#define MAX_SIZE 10
+//Macro function definition that return the larger value of the two
+#define GET_MAX(a,b) (a > b) ? a : b
+
+//MyList is a generic data structure list.
 
 template <typename T>
 class MyList
@@ -17,13 +23,24 @@ private:
 	tNode* top;*/
 	
 public:
+	//array of objects
 	T* objects;
+	//size of the list
 	int size;
+	//Top index of list
 	int top;
 
+	//Constructors
+	MyList(int s);
 	MyList();
+
+	//Destructors
 	~MyList();
+
+	//Copy constructor
 	MyList(const MyList& other);
+
+	//Copy assignment operator overload
 	MyList& operator=(const MyList& other)
 	{
 		if (this != &other)
@@ -43,21 +60,37 @@ public:
 		return *this;
 	}
 
-	void push(T& t);
-	T pop();
-	T begin() const;
-	T end() const;
+	//Member functions
+	void push(T& t);			//push Template object to top
+	T pop();					//pop Template object from top
+	T begin() const;			//return the first object
+	T end() const;				//return the last object
 	//void deleteList();
-	void remove(const T& t);
-	int& listEnd();
+	void remove(const T& t);	//remove a specific T object that exists in the list
+	int& listEnd();				//return the a refeernce to top
 };
 
 template<typename T>
-inline MyList<T>::MyList()
+inline MyList<T>::MyList() : MyList<T>::MyList(20)
+{
+}
+
+template<typename T>
+inline MyList<T>::MyList(int s)
 {
 	/*root = nullptr;
 	top = root;*/
-	size = 10;
+	try
+	{
+		if (GET_MAX(s, MAX_SIZE) > MAX_SIZE)
+			throw -1;
+		size = s;
+	}
+	catch (int exception)
+	{
+		size = MAX_SIZE;
+	}
+	
 	objects = new T[size];
 	top = 0;
 }

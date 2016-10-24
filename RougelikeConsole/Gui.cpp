@@ -3,13 +3,23 @@
 #include "libtcod.hpp"
 #include <stdlib.h>
 #include "globals.h"
+#ifndef _TITLETEXTFILE_
+#define _TITLETEXTFILE_ "title.txt"
+#endif // !_TITLETEXTFILE_
+
+#ifndef _GAMEOVERTEXT_
+#define _GAMEOVERTEXT_ "GAME OVER!\n\nPress \"Enter\" key to quit."
+#endif // !_GAMEOVERTEXT_
+
+
+
 
 
 Gui::Gui()
 {
 	playerHPString = new char[2];
 	enemyHPString = new char[2];
-	std::ifstream Reader("title.txt");             //Open file
+	std::ifstream Reader(_TITLETEXTFILE_);             //Open file
 	std::string Art = getFileContents(Reader);       //Get file
 	titleText = new char[Art.size() + 1];
 	titleText[Art.size()] = 0;
@@ -22,6 +32,7 @@ Gui::~Gui()
 {
 	delete playerHPString;
 	delete enemyHPString;
+	delete titleText;
 }
 
 void Gui::update(int playerHP) const
@@ -37,9 +48,20 @@ void Gui::render()
 
 void Gui::gameOver()
 {
-	TCODConsole::root->print(30, 47, Globals::gameOverString);
+	TCODConsole::root->print(25, 47, Globals::gameOverString);
 	TCOD_key_t key;
-	TCODSystem::checkForEvent(TCOD_EVENT_KEY_PRESS, &key, NULL);
+	TCODSystem::waitForEvent(TCOD_EVENT_KEY_PRESS, &key, NULL, NULL);
+	if (key.vk == TCODK_ENTER)
+	{
+		Globals::gameIsOver = true;
+	}
+}
+
+void Gui::gameWon()
+{
+	TCODConsole::root->print(20, 47, "You have found your Love. Press Enter.");
+	TCOD_key_t key;
+	TCODSystem::waitForEvent(TCOD_EVENT_KEY_PRESS, &key, NULL, NULL);
 	if (key.vk == TCODK_ENTER)
 	{
 		Globals::gameIsOver = true;
@@ -69,23 +91,28 @@ void Gui::displayTitleScreen()
 	}
 }
 
+void Gui::displayGameOverScreen()
+{
+	TCODConsole::root->print(25, 22, _GAMEOVERTEXT_);
+}
+
 std::string Gui::getFileContents(std::ifstream& File)
 {
-	std::string Lines = "";        //All lines
+	std::string Lines = "";							//All lines
 
-	if (File)                      //Check if everything is good
+	if (File)										//Check if everything is good
 	{
 		while (File.good())
 		{
-			std::string TempLine;                  //Temp line
-			std::getline(File, TempLine);        //Get temp line
-			TempLine += "\n";                      //Add newline character
+			std::string TempLine;					//Temp line
+			std::getline(File, TempLine);			//Get temp line
+			TempLine += "\n";						//Add newline character
 
-			Lines += TempLine;                     //Add newline
+			Lines += TempLine;						//Add newline
 		}
 		return Lines;
 	}
-	else                           //Return error
+	else											//Return error
 	{
 		return "ERROR File does not exist.";
 	}

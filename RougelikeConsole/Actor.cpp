@@ -73,10 +73,33 @@ int Actor::getHP() const
 
 void Actor::damage(int & x)
 {
-	this->hp -= x;
+	//this->hp -= x;
 }
 
 void Actor::damage(Actor & actor)
 {
-	this->hp -= actor.actorDamage;
+	//this->hp -= actor.actorDamage;
+}
+
+Actor & Actor::operator=(const Actor & other)
+{
+	if (this != &other)
+	{
+		this->nameID = other.nameID;
+		this->hp = other.hp;
+		this->actorDamage = other.actorDamage;
+		this->abscissa = other.abscissa;
+		this->ordinate = other.ordinate;
+		this->asciiCh = other.asciiCh;
+		this->color = other.color;
+	}
+	// TODO: insert return statement here
+	return *this;
+}
+
+bool operator==(const Actor & lhs, const Actor & rhs)
+{
+	if (&lhs == &rhs)
+		return true;
+	return false;
 }

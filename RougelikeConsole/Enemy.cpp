@@ -3,7 +3,6 @@
 #include "Gui.h"
 #include <cmath>
 
-extern TCODList<Enemy* > myList;
 Enemy::Enemy()
 {
 	this->nameID = '@';
@@ -47,12 +46,22 @@ Enemy::~Enemy()
 {
 }
 
+void Enemy::damage(int & x)
+{
+	this->hp -= x;
+}
+
+void Enemy::damage(Actor & actor)
+{
+	this->hp -= actor.actorDamage;
+}
+
 
 void Enemy::tryMove(const std::pair<int, int>& playerPos, Map* map)
 {
 	int xDist = playerPos.first - this->abscissa;
 	int yDist = playerPos.second - this->ordinate;
-	float distance = ceil(sqrt(pow(abs(xDist), 2) + pow(abs(yDist), 2)));
+	double distance = ceil(sqrt(pow(abs(xDist), 2) + pow(abs(yDist), 2)));
 	if (distance < 5 && distance > 1)
 	{
 		if (abs(xDist) > abs(yDist))

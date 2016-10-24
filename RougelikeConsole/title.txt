@@ -7,6 +7,11 @@ ______                             _
                    __/ |                                
                   |___/                                 
 
+                 !!!Find Your Love!!!
+
+
+
+
 
 Use Arrow keys to move
 
@@ -17,3 +22,17 @@ Heed your health
 
 
 Press "Enter" to Start.....
+
+
+Press "Esc" to Quit :(
+
+
+
+
+
+
+
+
+
+
+ASCII art from: http://www.network-science.de/ascii/

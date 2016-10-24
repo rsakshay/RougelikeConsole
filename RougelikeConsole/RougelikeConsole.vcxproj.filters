@@ -66,4 +66,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="CreateRoom.txt" />
+    <Text Include="Dig.txt" />
+    <Text Include="title.txt" />
+  </ItemGroup>
 </Project>

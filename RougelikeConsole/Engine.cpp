@@ -3,10 +3,11 @@
 #include "Map.h"
 #include "Engine.h"
 //#include "ComponentList.h"
+#define FOV 4
 
 bool Engine::renderGameOver;
 
-Engine::Engine() : fovRadius(4), computeFov(true)
+Engine::Engine() : fovRadius(FOV), computeFov(true)
 {
 	hud = new Gui();
 	Engine::renderGameOver = false;
@@ -15,8 +16,8 @@ Engine::Engine() : fovRadius(4), computeFov(true)
 	//myList.push(*player);
 	//actorList.push(*player);
 	map = new Map(80, 45);
-	myList.push(*(new Enemy(60, 20, 140,
-		TCODColor::yellow, 'o')));
+	myList.push(Enemy(60, 20, 140,
+		TCODColor::yellow, 'o'));
 }
 
 
@@ -131,7 +132,10 @@ void Engine::render() {
 	hud->render();
 	if (Engine::renderGameOver)
 	{
-		hud->gameOver();
+		if (player->getHP() <= 0)
+			hud->gameOver();
+		else if (player->getPos() == std::pair<int, int>(7, 36))
+			hud->gameWon();
 	}
 }
 
